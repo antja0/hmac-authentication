@@ -1,3 +1,5 @@
+[![NuGet](https://img.shields.io/nuget/v/Antja.Authentication.HMAC.svg)](https://www.nuget.org/packages/Antja.Authentication.HMAC)
+
 # HMAC Authentication
 
 For .net core projects.
@@ -7,18 +9,18 @@ Verifies both the data integrity and the authenticity of a message.
 
 ### Add to your Startup.cs
 ```c#
-	public void ConfigureServices(IServiceCollection services)
-	{
-		services.AddHttpContextAccessor();
-
-		services.Configure<HMACSignatureOptions>(Configuration.GetSection("Webhook"));
-		services.AddAuthentication(o => { o.DefaultScheme = "Webhook"; }).AddScheme<HMACSignatureHandler>("Webhook");
-	}
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddHttpContextAccessor();
+    
+    services.Configure<HMACSignatureOptions>(Configuration.GetSection("WebhookOptions"));
+    services.AddAuthentication(o => { o.DefaultScheme = "Webhook"; }).AddScheme<HMACSignatureHandler>("Webhook");
+}
 ```
 
 ### To your configuration eg. appsettings.json
 ```json
-"Webhook": {
+"WebhookOptions": {
   "Secret": "secret",
   "Header": "X-Hub-Signature", 
   "HashFunction":  1
@@ -30,10 +32,10 @@ Verifies both the data integrity and the authenticity of a message.
 
 ### Secure your API :rocket:
 ```c#
-	[Authorize(AuthenticationSchemes = "Webhook")]
-	[HttpPost("api/release")]
-	public async Task<IActionResult> Webhook()
-	{
-		return Ok();
-	}
+[Authorize(AuthenticationSchemes = "Webhook")]
+[HttpPost("api/release")]
+public async Task<IActionResult> Webhook()
+{
+    return Ok();
+}
 ```
