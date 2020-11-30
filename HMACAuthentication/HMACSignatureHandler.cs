@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Antja.Authentication.HMAC.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -15,7 +14,6 @@ namespace Antja.Authentication.HMAC
 {
     public class HMACSignatureHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        public const string ShaPrefix = "sha256=";
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HMACSignatureOptions _options;
 
@@ -37,19 +35,19 @@ namespace Antja.Authentication.HMAC
             }
 
             // Verify SHA signature.
+            var prefix = HMACUtilities.GetSignaturePrefix(_options.HashFunction);
             var signature = (string)signatureWithPrefix;
-            if (signature.StartsWith(ShaPrefix, StringComparison.OrdinalIgnoreCase))
+            if (signature.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
             {
-                signature = signature.Substring(ShaPrefix.Length);
+                signature = signature.Substring(prefix.Length);
 
                 using var reader = new StreamReader(httpContext.Request.Body);
                 var bodyAsBytes = Encoding.ASCII.GetBytes(await reader.ReadToEndAsync());
                 httpContext.Request.Body = new MemoryStream(bodyAsBytes); // Without this body stream is already red in Controller and cannot be used.
 
-                using var sha = new HMACSHA256(Encoding.ASCII.GetBytes(_options.Secret));
-                var hash = sha.ComputeHash(bodyAsBytes);
+                var hash = HMACUtilities.ComputeHash(_options.HashFunction, _options.Secret, bodyAsBytes);
 
-                var hashString = ToHexString(hash);
+                var hashString = HMACUtilities.ToHexString(hash);
                 if (hashString.Equals(signature))
                 {
                     var identity = new ClaimsIdentity(nameof(HMACSignatureHandler));
@@ -60,18 +58,6 @@ namespace Antja.Authentication.HMAC
             }
 
             return AuthenticateResult.Fail($"Invalid {_options.Header} header value.");
-        }
-
-        public static string ToHexString(IReadOnlyCollection<byte> bytes)
-        {
-            var builder = new StringBuilder(bytes.Count * 2);
-
-            foreach (var b in bytes)
-            {
-                builder.AppendFormat("{0:x2}", b);
-            }
-
-            return builder.ToString();
         }
     }
 }
