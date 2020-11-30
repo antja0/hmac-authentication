@@ -15,7 +15,6 @@ namespace Antja.Authentication.HMAC
 {
     public class HMACSignatureHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        public const string ShaSignatureHeader = "X-Hub-Signature-256";
         public const string ShaPrefix = "sha256=";
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HMACSignatureOptions _options;
@@ -30,11 +29,11 @@ namespace Antja.Authentication.HMAC
         {
             var httpContext = _httpContextAccessor.HttpContext;
 
-            httpContext.Request.Headers.TryGetValue(ShaSignatureHeader, out var signatureWithPrefix);
+            httpContext.Request.Headers.TryGetValue(_options.Header, out var signatureWithPrefix);
 
             if (string.IsNullOrWhiteSpace(signatureWithPrefix))
             {
-                return AuthenticateResult.Fail($"{ShaSignatureHeader} header not present or empty.");
+                return AuthenticateResult.Fail($"{_options.Header} header not present or empty.");
             }
 
             // Verify SHA signature.
@@ -60,7 +59,7 @@ namespace Antja.Authentication.HMAC
                 }
             }
 
-            return AuthenticateResult.Fail($"Invalid {ShaSignatureHeader} header value.");
+            return AuthenticateResult.Fail($"Invalid {_options.Header} header value.");
         }
 
         public static string ToHexString(IReadOnlyCollection<byte> bytes)
