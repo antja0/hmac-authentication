@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace Antja.Authentication.HMAC
+namespace Antja.Authentication.HMAC.Utilities
 {
     public static class AuthenticationBuilderExtensions
     {
