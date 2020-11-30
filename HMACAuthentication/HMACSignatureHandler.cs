@@ -13,14 +13,14 @@ using Microsoft.Extensions.Options;
 
 namespace Antja.Authentication.HMAC
 {
-    public class ShaSignatureHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public class HMACSignatureHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         public const string ShaSignatureHeader = "X-Hub-Signature-256";
         public const string ShaPrefix = "sha256=";
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ShaSignatureOptions _options;
+        private readonly HMACSignatureOptions _options;
 
-        public ShaSignatureHandler(IHttpContextAccessor httpContextAccessor, IOptions<ShaSignatureOptions> options, IOptionsMonitor<AuthenticationSchemeOptions> authOptions, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(authOptions, logger, encoder, clock)
+        public HMACSignatureHandler(IHttpContextAccessor httpContextAccessor, IOptions<HMACSignatureOptions> options, IOptionsMonitor<AuthenticationSchemeOptions> authOptions, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(authOptions, logger, encoder, clock)
         {
             _httpContextAccessor = httpContextAccessor;
             _options = options.Value;
@@ -53,7 +53,7 @@ namespace Antja.Authentication.HMAC
                 var hashString = ToHexString(hash);
                 if (hashString.Equals(signature))
                 {
-                    var identity = new ClaimsIdentity(nameof(ShaSignatureHandler));
+                    var identity = new ClaimsIdentity(nameof(HMACSignatureHandler));
                     var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), Scheme.Name);
 
                     return AuthenticateResult.Success(ticket);
