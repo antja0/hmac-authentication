@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/antja0/hmac-authentication</PackageProjectUrl>
     <RepositoryUrl>https://github.com/antja0/hmac-authentication</RepositoryUrl>
     <RootNamespace>Antja.Authentication.HMAC</RootNamespace>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
