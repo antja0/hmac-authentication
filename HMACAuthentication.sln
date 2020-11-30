@@ -3,7 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMACAuthentication", "HMACAuthentication\HMACAuthentication.csproj", "{C073B176-60D7-43FD-8C3C-FF62252D7ED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HMACAuthentication", "HMACAuthentication\HMACAuthentication.csproj", "{C073B176-60D7-43FD-8C3C-FF62252D7ED8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HMACAuthentication.Tests", "HMACAuthentication.Tests\HMACAuthentication.Tests.csproj", "{8F74FA7F-AF82-4E87-951A-5F23D7B115E3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{170AC172-153A-4CB2-B776-369B3311C097} = {170AC172-153A-4CB2-B776-369B3311C097}
+		{C073B176-60D7-43FD-8C3C-FF62252D7ED8} = {C073B176-60D7-43FD-8C3C-FF62252D7ED8}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMACAuthentication.TestApi", "HMACAuthentication.TestApi\HMACAuthentication.TestApi.csproj", "{170AC172-153A-4CB2-B776-369B3311C097}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C073B176-60D7-43FD-8C3C-FF62252D7ED8} = {C073B176-60D7-43FD-8C3C-FF62252D7ED8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +26,14 @@ Global
 		{C073B176-60D7-43FD-8C3C-FF62252D7ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C073B176-60D7-43FD-8C3C-FF62252D7ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C073B176-60D7-43FD-8C3C-FF62252D7ED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F74FA7F-AF82-4E87-951A-5F23D7B115E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F74FA7F-AF82-4E87-951A-5F23D7B115E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F74FA7F-AF82-4E87-951A-5F23D7B115E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F74FA7F-AF82-4E87-951A-5F23D7B115E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{170AC172-153A-4CB2-B776-369B3311C097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{170AC172-153A-4CB2-B776-369B3311C097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{170AC172-153A-4CB2-B776-369B3311C097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{170AC172-153A-4CB2-B776-369B3311C097}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
