@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Antja.Authentication.HMAC;
-using Antja.Authentication.HMAC.Utilities;
 using HMACAuthentication.TestApi;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Antja.Authentication.HMAC.Utilities
+namespace Antja.Authentication.HMAC
 {
     public static class HMACUtilities
     {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Antja.Authentication.HMAC.Utilities
+namespace Antja.Authentication.HMAC
 {
     public static class Extensions
     {

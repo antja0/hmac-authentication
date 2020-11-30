@@ -1,5 +1,4 @@
 using Antja.Authentication.HMAC;
-using Antja.Authentication.HMAC.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
