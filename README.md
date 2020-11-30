@@ -1,5 +1,5 @@
 [![NuGet](https://img.shields.io/nuget/v/Antja.Authentication.HMAC.svg)](https://www.nuget.org/packages/Antja.Authentication.HMAC)
-![Tests](https://github.com/antja0/hmac-authentication/workflows/Tests/badge.svg)
+![Tests](https://github.com/antja0/hmac-authentication/workflows/Tests/badge.svg?branch=main)
 
 # HMAC Authentication
 
