@@ -26,11 +26,10 @@ namespace HMACAuthentication.Tests.Integration
         {
             // Arrange
             var request = new[] { "random", "stuff" };
-
-            AddSignatureHeaders(request, "Scheme1");
+            var header = GetSignatureHeader(request, "Scheme1");
 
             // Act
-            var response = await TestClient.PostAsJsonAsync("api/scheme1", request);
+            var response = await TestClient.PostAsJsonAsync("api/scheme1", request, header);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);

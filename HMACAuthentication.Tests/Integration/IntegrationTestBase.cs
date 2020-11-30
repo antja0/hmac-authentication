@@ -7,8 +7,9 @@ using Antja.Authentication.HMAC.Utilities;
 using HMACAuthentication.TestApi;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace HMACAuthentication.Tests.Integration
@@ -16,7 +17,7 @@ namespace HMACAuthentication.Tests.Integration
     internal abstract class IntegrationTestBase
     {
         protected readonly HttpClient TestClient;
-        private Dictionary<string, HMACSignatureOptions> _authOptions;
+        private readonly Dictionary<string, HMACSignatureOptions> _authOptions;
 
         protected IntegrationTestBase()
         {
@@ -26,11 +27,6 @@ namespace HMACAuthentication.Tests.Integration
                 .WithWebHostBuilder(builder =>
                 {
                     builder.UseUrls(hostUrl);
-                    builder.ConfigureAppConfiguration((webHostBuilderContext, configurationBuilder) =>
-                    {
-                        var config = configurationBuilder.Build();
-                        _authOptions = config.GetValue("AuthOptions", new Dictionary<string, HMACSignatureOptions>());
-                    });
                     builder.ConfigureLogging(logging => logging.ClearProviders());
                 });
 
@@ -39,9 +35,11 @@ namespace HMACAuthentication.Tests.Integration
                 // Note: Must specify HTTPS here because default is HTTP.
                 BaseAddress = new Uri(hostUrl),
             });
+
+            _authOptions = appFactory.Services.GetService<IOptions<Dictionary<string, HMACSignatureOptions>>>().Value;
         }
 
-        protected void AddSignatureHeaders<TBody>(TBody body, string schema)
+        protected Tuple<string, string> GetSignatureHeader<TBody>(TBody body, string schema)
         {
             var bodyData = JsonConvert.SerializeObject(body);
             var bodyAsBytes = Encoding.ASCII.GetBytes(bodyData);
@@ -50,7 +48,8 @@ namespace HMACAuthentication.Tests.Integration
 
             var hash = HMACUtilities.ComputeHash(options.HashFunction, options.Secret, bodyAsBytes);
             var hashString = HMACUtilities.ToHexString(hash);
-            TestClient.DefaultRequestHeaders.Add(options.Header, new[] { HMACUtilities.GetSignaturePrefix(options.HashFunction) + hashString });
+
+            return new Tuple<string, string>(options.Header, HMACUtilities.GetSignaturePrefix(options.HashFunction) + hashString);
         }
     }
 }

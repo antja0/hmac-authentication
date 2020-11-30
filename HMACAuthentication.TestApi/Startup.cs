@@ -1,6 +1,5 @@
 using Antja.Authentication.HMAC;
 using Antja.Authentication.HMAC.Utilities;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +25,7 @@ namespace HMACAuthentication.TestApi
 
             services.AddHttpContextAccessor();
 
-            services.Configure<Dictionary<string, HMACSignatureOptions>>(Configuration.GetSection("AuthOptions"));
+            services.ConfigureDictionary<HMACSignatureOptions>(Configuration.GetSection("AuthOptions"));
 
             services.AddAuthentication(o => { o.DefaultScheme = "Scheme1"; })
                 .AddScheme<HMACSignatureHandler>("Scheme1")
