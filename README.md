@@ -14,7 +14,7 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddHttpContextAccessor();
     
-    services.Configure<Dictionary<HMACSignatureOptions>>(Configuration.GetSection("AuthOptions"));
+    services.Configure<Dictionary<string, HMACSignatureOptions>>(Configuration.GetSection("AuthOptions"));
     services.AddAuthentication(o => { o.DefaultScheme = "Webhook"; }).AddScheme<HMACSignatureHandler>("Webhook");
 }
 ```
