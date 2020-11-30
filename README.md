@@ -14,17 +14,22 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddHttpContextAccessor();
     
-    services.Configure<HMACSignatureOptions>(Configuration.GetSection("WebhookOptions"));
+    services.Configure<Dictionary<HMACSignatureOptions>>(Configuration.GetSection("AuthOptions"));
     services.AddAuthentication(o => { o.DefaultScheme = "Webhook"; }).AddScheme<HMACSignatureHandler>("Webhook");
 }
 ```
 
 ### To your configuration eg. appsettings.json
+
+Note: each scheme is configured separately, here the scheme is 'Webhook'.
+
 ```json
-"WebhookOptions": {
-  "Secret": "secret",
-  "Header": "X-Hub-Signature", 
-  "HashFunction":  1
+"AuthOptions": {
+  "Webhook": {
+    "Secret": "secret",
+    "Header": "X-Hub-Signature", 
+    "HashFunction":  1
+  }
 },
 ```
 - _**Header** defaults to X-Hub-Signature if left empty._
