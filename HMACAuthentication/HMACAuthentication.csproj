@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>Antja.Authentication.HMAC</PackageId>
+    <Company />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Antja</Authors>
+    <Description>HMAC authentication handler / scheme and utilities for .net core.</Description>
+    <PackageTags>hmac,authentication,handler,antja</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/antja0/hmac-authentication</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/antja0/hmac-authentication</RepositoryUrl>
+    <RootNamespace>Antja.Authentication.HMAC</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>
